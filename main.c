@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <unistd.h>
 
 int
 main (int argc, char *argv[])
@@ -16,28 +16,27 @@ main (int argc, char *argv[])
 		char starting_character = argv[1][0];
 		if (starting_character == '-')
 		{
-			int case_c = strcmp(argv[1], "-c");
-			int case_l = strcmp(argv[1], "-l");
-			int case_w = strcmp(argv[1], "-w");
-			int case_m = strcmp(argv[1], "-m");
-			switch (0)
+			int opt = 0;
+			while ((opt = getopt(argc, argv, "clwm")) != -1)
 			{
-				case case_c:
-					printf("-c case.\n");
-					break;
-				case case_l:
-					printf("-l case.\n");
-					break;
-				case case_w:
-					printf("-w case.\n");
-					break;
-				case case_m:
-					printf("-m case.\n");
-					break;
-				default:
-					fprintf(stderr, "Error: Expected valid command argument, but got %s.\n", argv[1]);
-					fprintf(stderr, "Usage: -c for number of bytes, -l for number of lines, -w for number of words, or -m for number of characters\n");
-					return EXIT_FAILURE;
+				switch (opt)
+				{
+					case 'c':
+						printf("-c case.\n");
+						break;
+					case 'l':
+						printf("-l case.\n");
+						break;
+					case 'w':
+						printf("-w case.\n");
+						break;
+					case 'm':
+						printf("-m case.\n");
+						break;
+					default:
+						fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", argv[0]);
+						return EXIT_FAILURE;
+				}
 			}
 		}
 		else
