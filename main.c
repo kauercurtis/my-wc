@@ -26,7 +26,8 @@ main (int argc, char *argv[])
 				switch (opt)
 				{
 					case 'c':
-						byte_count (argv[2]);
+						int bytes = byte_count (argv[2]);
+						printf("%d %s\n", bytes, argv[2]);
 						break;
 					case 'l':
 						printf("-l case.\n");
