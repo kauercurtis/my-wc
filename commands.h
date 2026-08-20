@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-void
+int
 byte_count (char filename[]);
 
 #endif /* COMMANDS_H */
