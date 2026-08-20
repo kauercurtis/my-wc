@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "commands.h"
+#include <string.h>
 
 int
 main (int argc, char *argv[])
@@ -17,12 +19,14 @@ main (int argc, char *argv[])
 		if (starting_character == '-')
 		{
 			int opt = 0;
-			while ((opt = getopt(argc, argv, "clwm")) != -1)
+			// char filename[260];
+			// strcpy(filename, argv[2]);
+		       	while ((opt = getopt(argc, argv, "clwm")) != -1)
 			{
 				switch (opt)
 				{
 					case 'c':
-						printf("-c case.\n");
+						byte_count (argv[2]);
 						break;
 					case 'l':
 						printf("-l case.\n");
