@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+extern int fd;
+
 int
 byte_count (char filename[]);
 
