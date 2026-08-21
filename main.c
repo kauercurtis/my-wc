@@ -30,7 +30,8 @@ main (int argc, char *argv[])
 						printf("%d %s\n", bytes, argv[2]);
 						break;
 					case 'l':
-						printf("-l case.\n");
+						int lines = line_count (argv[2]);
+						printf("%d %s\n", lines, argv[2]);
 						break;
 					case 'w':
 						printf("-w case.\n");

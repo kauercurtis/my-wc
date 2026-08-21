@@ -20,3 +20,42 @@ byte_count (char filename[])
 	}
 	return bytes;
 }
+
+int
+line_count (char filename[])
+{
+	int fd = open(filename, O_RDONLY);
+	int lines = 0;
+	if (fd < 0)
+	{
+		fprintf(stderr, "Error: File could not be opened.\n");
+	}
+	else{
+		char buf[100 + 1];
+		int nb_read = -1;
+		// buf[nb_read] = '\0';
+		// if (nb_read != 0 || nb_read != -1)
+		// {
+		//	lines++;
+		// }
+		while (nb_read != 0)
+		{
+			nb_read = read(fd, buf, 100);
+			if (nb_read == -1)
+			{
+				fprintf(stderr, "Error: Reading error.\n");
+				break;
+			}
+			buf[nb_read] = '\0';
+			for (int i = 0; i < nb_read; i++)
+			{
+				if (buf[i] == '\n')
+				{
+					lines++;
+				}
+			}
+		}
+	}
+	close(fd);
+	return lines;
+}

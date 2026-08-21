@@ -8,4 +8,7 @@
 int
 byte_count (char filename[]);
 
+int
+line_count (char filename[]);
+
 #endif /* COMMANDS_H */
