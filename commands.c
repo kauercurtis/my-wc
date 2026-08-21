@@ -1,10 +1,12 @@
 #include "commands.h"
 
+int fd;
+
 int
 byte_count (char filename[])
 {
 	int bytes = 0;
-	int fd = open(filename, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
 		fprintf(stderr, "Error: File could not be opened.\n");
@@ -24,7 +26,7 @@ byte_count (char filename[])
 int
 line_count (char filename[])
 {
-	int fd = open(filename, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	int lines = 0;
 	if (fd < 0)
 	{
@@ -33,11 +35,6 @@ line_count (char filename[])
 	else{
 		char buf[100 + 1];
 		int nb_read = -1;
-		// buf[nb_read] = '\0';
-		// if (nb_read != 0 || nb_read != -1)
-		// {
-		//	lines++;
-		// }
 		while (nb_read != 0)
 		{
 			nb_read = read(fd, buf, 100);

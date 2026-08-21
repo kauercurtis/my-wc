@@ -19,9 +19,7 @@ main (int argc, char *argv[])
 		if (starting_character == '-')
 		{
 			int opt = 0;
-			// char filename[260];
-			// strcpy(filename, argv[2]);
-		       	while ((opt = getopt(argc, argv, "clwm")) != -1)
+		    while ((opt = getopt(argc, argv, "clwm")) != -1)
 			{
 				switch (opt)
 				{
