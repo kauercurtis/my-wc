@@ -32,7 +32,8 @@ main (int argc, char *argv[])
 						printf("%d %s\n", lines, argv[2]);
 						break;
 					case 'w':
-						printf("-w case.\n");
+						int words = word_count (argv[2]);
+						printf("%d %s\n", words, argv[2]);
 						break;
 					case 'm':
 						printf("-m case.\n");
