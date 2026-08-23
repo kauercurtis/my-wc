@@ -1,3 +1,7 @@
+/**
+	commands.c - Implementation file for commands.h
+**/
+
 #include "commands.h"
 
 int FD;

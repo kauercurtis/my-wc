@@ -1,3 +1,9 @@
+/**
+	main.c - Primary driver file for execution.
+	Returns EXIT_FAILURE on the following conditions: insufficient # of arguments, unable to successfully open file, incorrect commands, and unable to successfully close file.
+	Returns EXIT_SUCCESS if all of the EXIT_FAILURE conditions are false.
+**/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -1,3 +1,8 @@
+/**
+	commands.h - Header interface file for processing commands.
+	Implementation file: commands.c
+**/
+
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
