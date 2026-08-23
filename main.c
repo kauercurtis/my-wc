@@ -29,19 +29,20 @@ main (int argc, char *argv[])
 				switch (opt)
 				{
 					case 'c':
-						int bytes = byte_count (argv[2]);
+						int bytes = byte_count ();
 						printf("%d %s\n", bytes, argv[2]);
 						break;
 					case 'l':
-						int lines = line_count (argv[2]);
+						int lines = line_count ();
 						printf("%d %s\n", lines, argv[2]);
 						break;
 					case 'w':
-						int words = word_count (argv[2]);
+						int words = word_count ();
 						printf("%d %s\n", words, argv[2]);
 						break;
 					case 'm':
-						printf("-m case.\n");
+						int characters = character_count();
+						printf("%d %s\n", characters, argv[2]);
 						break;
 					default:
 						fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", argv[0]);
