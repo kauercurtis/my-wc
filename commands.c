@@ -1,63 +1,64 @@
 #include "commands.h"
 
 int fd;
-
 char temp[101];
-
 int temp_index = 0;
 
 int
-byte_count (char filename[])
+open_file (char file_name[])
 {
-	int bytes = 0;
-	fd = open(filename, O_RDONLY);
+	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 	{
-		fprintf(stderr, "Error: File could not be opened.\n");
+		fprintf(stderr, "Error: File could not be opened, got %d.\n", fd);
+		return -1;
 	}
-	else
-	{
-		bytes = lseek(fd, 0, SEEK_END);
-	}
+	return 0;
+}
+
+int
+close_file ()
+{
 	int close_status = close(fd);
 	if (close_status < 0)
 	{
-		fprintf(stderr, "Error: File descriptor could not be closed appropriately.\n");
+		fprintf(stderr, "Error: File descriptor could not be closed appropriately, got %d.\n", close_status);
+		return -1;
 	}
+	return 0;
+}
+
+int
+byte_count ()
+{
+	int bytes = 0;
+	bytes = lseek(fd, 0, SEEK_END);
 	return bytes;
 }
 
 int
-line_count (char filename[])
+line_count ()
 {
-	fd = open(filename, O_RDONLY);
 	int lines = 0;
-	if (fd < 0)
+	char buf[100 + 1];
+	int nb_read = -1;
+	while (nb_read != 0)
 	{
-		fprintf(stderr, "Error: File could not be opened.\n");
-	}
-	else{
-		char buf[100 + 1];
-		int nb_read = -1;
-		while (nb_read != 0)
+		nb_read = read(fd, buf, 100);
+		if (nb_read == -1)
 		{
-			nb_read = read(fd, buf, 100);
-			if (nb_read == -1)
+			fprintf(stderr, "Error: Reading error, got -1.");
+			break;
+		}
+		buf[nb_read] = '\0';
+		for (int i = 0; i < nb_read; i++)
+		{
+			if (buf[i] == '\n')
 			{
-				fprintf(stderr, "Error: Reading error.\n");
-				break;
-			}
-			buf[nb_read] = '\0';
-			for (int i = 0; i < nb_read; i++)
-			{
-				if (buf[i] == '\n')
-				{
-					lines++;
-				}
+				lines++;
 			}
 		}
 	}
-	close(fd);
 	return lines;
 }
 
@@ -131,29 +132,22 @@ word_processing (char buffer[], int bytes_read)
 }
 
 int
-word_count (char filename[])
+word_count ()
 {
-	fd = open(filename, O_RDONLY);
+
 	int words = 0;
-	if (fd < 0)
+	char buf[100 + 1];
+	int nb_read = -1;
+	while (nb_read != 0)
 	{
-		fprintf(stderr, "Error: File could not be opened.\n");
-	}
-	else{
-		char buf[100 + 1];
-		int nb_read = -1;
-		while (nb_read != 0)
+		nb_read = read(fd, buf, 100);
+		if (nb_read == -1)
 		{
-			nb_read = read(fd, buf, 100);
-			if (nb_read == -1)
-			{
-				fprintf(stderr, "Error: Reading error.\n");
-				break;
-			}
-			buf[nb_read] = '\0';
-			words += word_processing(buf, nb_read);
+			fprintf(stderr, "Error: Reading error, got -1.");
+			break;
 		}
+		buf[nb_read] = '\0';
+		words += word_processing(buf, nb_read);
 	}
-	close(fd);
 	return words;
 }
