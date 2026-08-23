@@ -1,3 +1,9 @@
+/**
+	main.c - Primary driver file for execution.
+	Returns EXIT_FAILURE on the following conditions: insufficient # of arguments, unable to successfully open file, incorrect commands, and unable to successfully close file.
+	Returns EXIT_SUCCESS if all of the EXIT_FAILURE conditions are false.
+**/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -51,7 +57,7 @@ main (int argc, char *argv[])
 			}
 			if (close_file() == -1)
 			{
-				fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+				fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
 				return EXIT_FAILURE;
 			}
 		}
