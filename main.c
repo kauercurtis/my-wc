@@ -18,6 +18,11 @@ main (int argc, char *argv[])
 		char starting_character = argv[1][0];
 		if (starting_character == '-')
 		{
+		   	if (open_file(argv[2]) == -1)
+			{
+				fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+				return EXIT_FAILURE;
+			}
 			int opt = 0;
 		    while ((opt = getopt(argc, argv, "clwm")) != -1)
 			{
@@ -42,6 +47,11 @@ main (int argc, char *argv[])
 						fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", argv[0]);
 						return EXIT_FAILURE;
 				}
+			}
+			if (close_file() == -1)
+			{
+				fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+				return EXIT_FAILURE;
 			}
 		}
 		else

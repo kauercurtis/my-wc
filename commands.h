@@ -12,13 +12,19 @@ extern char temp[101];
 extern int temp_index;
 
 int
-byte_count (char filename[]);
+open_file (char file_name[]);
 
 int
-line_count (char filename[]);
+close_file ();
 
 int
-word_count (char filename[]);
+byte_count ();
+
+int
+line_count ();
+
+int
+word_count ();
 
 int
 word_processing (char buffer[], int bytes_read);
