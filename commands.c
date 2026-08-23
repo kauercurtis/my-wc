@@ -1,17 +1,17 @@
 #include "commands.h"
 
-int fd;
-char temp[101];
-int temp_index = 0;
-int temp_len = 0;
+int FD;
+char TEMP[101];
+int TEMP_INDEX = 0;
+int TEMP_LEN = 0;
 
 int
 open_file (char file_name[])
 {
-	fd = open(file_name, O_RDONLY);
+	FD = open(file_name, O_RDONLY);
 	if (fd < 0)
 	{
-		fprintf(stderr, "Error: File could not be opened, got %d.\n", fd);
+		fprintf(stderr, "Error: File could not be opened, got %d.\n", FD);
 		return -1;
 	}
 	return 0;
@@ -20,7 +20,7 @@ open_file (char file_name[])
 int
 close_file ()
 {
-	int close_status = close(fd);
+	int close_status = close(FD);
 	if (close_status < 0)
 	{
 		fprintf(stderr, "Error: File descriptor could not be closed appropriately, got %d.\n", close_status);
@@ -33,7 +33,7 @@ int
 byte_count ()
 {
 	int bytes = 0;
-	bytes = lseek(fd, 0, SEEK_END);
+	bytes = lseek(FD, 0, SEEK_END);
 	return bytes;
 }
 
@@ -45,7 +45,7 @@ line_count ()
 	int nb_read = -1;
 	while (nb_read != 0)
 	{
-		nb_read = read(fd, buf, 100);
+		nb_read = read(FD, buf, 100);
 		if (nb_read == -1)
 		{
 			fprintf(stderr, "Error: Reading error, got -1.");
@@ -71,18 +71,18 @@ word_processing (char buffer[], int bytes_read)
 	{
 		if (isblank(buffer[i]) || iscntrl(buffer[i]))
 		{
-			if (temp_index > 0)
+			if (TEMP_INDEX > 0)
 			{
-				temp[0] = '\0';
-				temp_index = 0;
+				TEMP[0] = '\0';
+				TEMP_INDEX = 0;
 				word_count++;
 			}
 		}
 		else
 		{
-			temp[temp_index] = buffer[i];
-			temp[temp_index + 1] = '\0';
-			temp_index++;
+			TEMP[TEMP_INDEX] = buffer[i];
+			TEMP[TEMP_INDEX + 1] = '\0';
+			TEMP_INDEX++;
 		}
 	}
 	return word_count;
@@ -97,7 +97,7 @@ word_count ()
 	int nb_read = -1;
 	while (nb_read != 0)
 	{
-		nb_read = read(fd, buf, 100);
+		nb_read = read(FD, buf, 100);
 		if (nb_read == -1)
 		{
 			fprintf(stderr, "Error: Reading error, got -1.");
@@ -115,11 +115,11 @@ char_processing (char buffer[], int bytes_read)
 	int char_count = 0;
 	for (int i = 0; i < bytes_read; i++)
 	{
-		if (temp_len > 1 && temp_index == temp_len - 1)
+		if (TEMP_LEN > 1 && TEMP_INDEX == TEMP_LEN - 1)
 		{
-			temp[0] = '\0';
-			temp_index = 0;
-			temp_len = 0;
+			TEMP[0] = '\0';
+			TEMP_INDEX = 0;
+			TEMP_LEN = 0;
 			char_count++;
 		}
 		else if ((buffer[i] & 0x80) == 0)
@@ -128,26 +128,26 @@ char_processing (char buffer[], int bytes_read)
 		}
 		else if ((buffer[i] & 0xE0) == 0xC0)
 		{
-			temp_len = 2;
-			temp[temp_index] = buffer[i];
-			temp_index++;
+			TEMP_LEN = 2;
+			TEMP[TEMP_INDEX] = buffer[i];
+			TEMP_INDEX++;
 		}
 		else if ((buffer[i] & 0xf0) == 0xE0)
 		{
-			temp_len = 3;
-			temp[temp_index] = buffer[i];
-			temp_index++;
+			TEMP_LEN = 3;
+			TEMP[TEMP_INDEX] = buffer[i];
+			TEMP_INDEX++;
 		}
 		else if ((buffer[i] & 0xF8) == 0xF0)
 		{
-			temp_len = 4;
-			temp[temp_index] = buffer[i];
-			temp_index++;
+			TEMP_LEN = 4;
+			TEMP[TEMP_INDEX] = buffer[i];
+			TEMP_INDEX++;
 		}
 		else
 		{
-			temp[temp_index] = buffer[i];
-			temp_index++;
+			TEMP[TEMP_INDEX] = buffer[i];
+			TEMP_INDEX++;
 		}
 	}
 	return char_count;
@@ -161,7 +161,7 @@ character_count ()
 	int nb_read = -1;
 	while (nb_read != 0)
 	{
-		nb_read = read(fd, buf, 100);
+		nb_read = read(FD, buf, 100);
 		if (nb_read == -1)
 		{
 			fprintf(stderr, "Error: Reading error, got -1.");

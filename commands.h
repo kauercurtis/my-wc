@@ -7,10 +7,10 @@
 #include <ctype.h>
 #include <string.h>
 
-extern int fd;
-extern char temp[101];
-extern int temp_index;
-extern int temp_len;
+extern int FD;
+extern char TEMP[101];
+extern int TEMP_INDEX;
+extern int TEMP_LEN;
 
 int
 open_file (char file_name[]);

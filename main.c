@@ -51,7 +51,7 @@ main (int argc, char *argv[])
 			}
 			if (close_file() == -1)
 			{
-				fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+				fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
 				return EXIT_FAILURE;
 			}
 		}
