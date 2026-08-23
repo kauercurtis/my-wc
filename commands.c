@@ -62,45 +62,20 @@ line_count ()
 	return lines;
 }
 
-// buffer has 101 characters (including null terminator)
-// Objective: Count the words in the buffer
 int
 word_processing (char buffer[], int bytes_read)
 {
 	int word_count = 0;
 	for (int i = 0; i < bytes_read; i++)
 	{
-		/*
-		if (!isgraph((unsigned char)buffer[i]) &&
-    		!isblank((unsigned char)buffer[i]) &&
-    		!iscntrl((unsigned char)buffer[i]))
-		{
-    		printf("Unexpected byte: %d\n", (unsigned char)buffer[i]);
-		}
-		*/
-		// if (isalnum((unsigned char)buffer[i]) || ispunct(buffer[i]))
-		if (isgraph(buffer[i]))
-		{
-			temp[temp_index] = buffer[i];
-			temp[temp_index + 1] = '\0';
-			// printf("%c\n", buffer[i]);
-			temp_index++;
-		}
-		else if (isblank(buffer[i]) || iscntrl(buffer[i]))
+		if (isblank(buffer[i]) || iscntrl(buffer[i]))
 		{
 			if (temp_index > 0)
 			{
-				//printf("%s\n", temp);
 				temp[0] = '\0';
 				temp_index = 0;
 				word_count++;
 			}
-			// char refresh[bytes_read];
-			// printf("%s\n", temp);
-			// strcpy(temp, refresh);
-			// temp[0] = '\0';
-			// word_count++;
-			// curr_index = 0;
 		}
 		else
 		{
@@ -108,26 +83,7 @@ word_processing (char buffer[], int bytes_read)
 			temp[temp_index + 1] = '\0';
 			temp_index++;
 		}
-		/*
-		if ((isblank(buffer[i]) || buffer[i] == '\n' || buffer[i] == '\0') && ((sizeof(temp) / sizeof(char)) > 0) && buffer[i])
-		{
-			curr_index = 0;
-			char refresh[bytes_read];
-			strcpy(temp, refresh);
-			temp[0] = '\0';
-			word_count++;
-		}
-		else if (!isblank(buffer[i]) && buffer[i] != '\n')
-		{
-			temp[curr_index] = buffer[i];
-			temp[curr_index + 1] = '\0';
-			curr_index++;
-			// printf("%s\n", temp);
-			printf("%c\n", buffer[i]);
-		}
-		*/
 	}
-	// printf("%s\n", buffer);
 	return word_count;
 }
 
