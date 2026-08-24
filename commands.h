@@ -17,13 +17,18 @@ extern int TEMP_INDEX;
 extern int TEMP_LEN;
 
 /*
-	open_file - Opens the file in arg1.
+	open_file - Opens the file in arg1: file_name[] and assigns it to FD.
 	Returns -1 if it has an issue attempting to open the file.
 	Returns 0 if the file is successfully opened.
 */
 int
 open_file (char file_name[]);
 
+/*
+	close_file - Closes the file associated with FD.
+	Returns -1 if it has an issue attempting to close the file associated with FD.
+	Returns 0 if the file is successfully closed.
+*/
 int
 close_file ();
 
