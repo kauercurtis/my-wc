@@ -10,6 +10,14 @@
 #include "commands.h"
 #include <string.h>
 
+int BYTES = -1;
+int LINES = -1;
+int WORDS = -1;
+int CHARS = -1;
+
+void
+print_file_data();
+
 int
 main (int argc, char *argv[])
 {
@@ -35,26 +43,23 @@ main (int argc, char *argv[])
 				switch (opt)
 				{
 					case 'c':
-						int bytes = byte_count ();
-						printf("%d %s\n", bytes, argv[2]);
+						BYTES = byte_count ();
 						break;
 					case 'l':
-						int lines = line_count ();
-						printf("%d %s\n", lines, argv[2]);
+						LINES = line_count ();
 						break;
 					case 'w':
-						int words = word_count ();
-						printf("%d %s\n", words, argv[2]);
+						WORDS = word_count ();
 						break;
 					case 'm':
-						int characters = character_count();
-						printf("%d %s\n", characters, argv[2]);
+						CHARS = character_count ();
 						break;
 					default:
 						fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", argv[0]);
 						return EXIT_FAILURE;
 				}
 			}
+			print_file_data(argv[2]);
 			if (close_file() == -1)
 			{
 				fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
@@ -70,7 +75,42 @@ main (int argc, char *argv[])
 	}
 	else
 	{
-		printf("No command entered. File only.");
+		if (open_file(argv[1]) == -1)
+		{
+			fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+			return EXIT_FAILURE;
+		}
+		BYTES = byte_count ();
+		LINES = line_count ();
+		WORDS = word_count ();
+		print_file_data(argv[1]);
+		if (close_file() == -1)
+		{
+			fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
+			return EXIT_FAILURE;
+		}
 	}
 	return EXIT_SUCCESS;
+}
+
+void
+print_file_data(char file_name[])
+{
+	if (LINES != -1)
+	{
+		printf("%d ", LINES);
+	}
+	if (WORDS != -1)
+	{
+		printf("%d ", WORDS);
+	}
+	if (CHARS != -1)
+	{
+		printf("%d ", CHARS);
+	}
+	if (BYTES != -1)
+	{
+		printf("%d ", BYTES);
+	}
+	printf("%s\n", file_name);
 }

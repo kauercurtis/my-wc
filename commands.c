@@ -13,7 +13,7 @@ int
 open_file (char file_name[])
 {
 	FD = open(file_name, O_RDONLY);
-	if (fd < 0)
+	if (FD < 0)
 	{
 		fprintf(stderr, "Error: File could not be opened, got %d.\n", FD);
 		return -1;
@@ -38,6 +38,7 @@ byte_count ()
 {
 	int bytes = 0;
 	bytes = lseek(FD, 0, SEEK_END);
+	lseek(FD, 0, SEEK_SET);
 	return bytes;
 }
 
@@ -64,6 +65,7 @@ line_count ()
 			}
 		}
 	}
+	lseek(FD, 0, SEEK_SET);
 	return lines;
 }
 
@@ -110,6 +112,7 @@ word_count ()
 		buf[nb_read] = '\0';
 		words += word_processing(buf, nb_read);
 	}
+	lseek(FD, 0, SEEK_SET);
 	return words;
 }
 
@@ -174,5 +177,6 @@ character_count ()
 		buf[nb_read] = '\0';
 		characters += char_processing(buf, nb_read);
 	}
+	lseek(FD, 0, SEEK_SET);
 	return characters;
 }
