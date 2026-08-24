@@ -4,7 +4,7 @@
 
 #include "commands.h"
 
-int FD;
+int FD = -1;
 int TEMP_INDEX = 0;
 int TEMP_LEN = 0;
 
@@ -37,7 +37,23 @@ byte_count ()
 {
 	int bytes = 0;
 	bytes = lseek(FD, 0, SEEK_END);
-	lseek(FD, 0, SEEK_SET);
+	int seek = lseek(FD, 0, SEEK_SET);
+	if (seek == -1)
+	{
+		bytes = 0;
+		char buf[100 + 1];
+		int nb_read = -1;
+		while (nb_read != 0)
+		{
+			nb_read = read(FD, buf, 100);
+			if (nb_read == -1)
+			{
+				fprintf(stderr, "Error: Reading error, got -1.");
+				break;
+			}
+			bytes += nb_read;
+		}
+	}
 	return bytes;
 }
 
@@ -65,7 +81,7 @@ line_count ()
 		}
 	}
 	lseek(FD, 0, SEEK_SET);
-	return lines;
+return lines;
 }
 
 int
@@ -170,4 +186,28 @@ character_count ()
 	}
 	lseek(FD, 0, SEEK_SET);
 	return characters;
+}
+
+int
+open_stream_input()
+{
+	FD = fileno(stdin);
+	if (FD < 0)
+	{
+		fprintf(stderr, "Error: stdin could not be opened, got %d.\n", FD);
+		return -1;
+	}
+	return 0;
+}
+
+int
+close_stream_input()
+{
+	int close_status = fclose(stdin);
+	if (close_status < 0)
+	{
+		fprintf(stderr, "Error: File descriptor could not be closed appropriately, got %d.\n", close_status);
+		return -1;
+	}
+	return 0;
 }
