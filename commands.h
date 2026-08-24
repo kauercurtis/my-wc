@@ -13,7 +13,6 @@
 #include <string.h>
 
 extern int FD;
-extern char TEMP[101];
 extern int TEMP_INDEX;
 extern int TEMP_LEN;
 
