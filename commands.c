@@ -5,7 +5,6 @@
 #include "commands.h"
 
 int FD;
-char TEMP[101];
 int TEMP_INDEX = 0;
 int TEMP_LEN = 0;
 
@@ -79,15 +78,12 @@ word_processing (char buffer[], int bytes_read)
 		{
 			if (TEMP_INDEX > 0)
 			{
-				TEMP[0] = '\0';
 				TEMP_INDEX = 0;
 				word_count++;
 			}
 		}
 		else
 		{
-			TEMP[TEMP_INDEX] = buffer[i];
-			TEMP[TEMP_INDEX + 1] = '\0';
 			TEMP_INDEX++;
 		}
 	}
@@ -124,7 +120,6 @@ char_processing (char buffer[], int bytes_read)
 	{
 		if (TEMP_LEN > 1 && TEMP_INDEX == TEMP_LEN - 1)
 		{
-			TEMP[0] = '\0';
 			TEMP_INDEX = 0;
 			TEMP_LEN = 0;
 			char_count++;
@@ -136,24 +131,20 @@ char_processing (char buffer[], int bytes_read)
 		else if ((buffer[i] & 0xE0) == 0xC0)
 		{
 			TEMP_LEN = 2;
-			TEMP[TEMP_INDEX] = buffer[i];
 			TEMP_INDEX++;
 		}
 		else if ((buffer[i] & 0xf0) == 0xE0)
 		{
 			TEMP_LEN = 3;
-			TEMP[TEMP_INDEX] = buffer[i];
 			TEMP_INDEX++;
 		}
 		else if ((buffer[i] & 0xF8) == 0xF0)
 		{
 			TEMP_LEN = 4;
-			TEMP[TEMP_INDEX] = buffer[i];
 			TEMP_INDEX++;
 		}
 		else
 		{
-			TEMP[TEMP_INDEX] = buffer[i];
 			TEMP_INDEX++;
 		}
 	}

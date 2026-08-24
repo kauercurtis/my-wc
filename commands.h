@@ -13,10 +13,14 @@
 #include <string.h>
 
 extern int FD;
-extern char TEMP[101];
 extern int TEMP_INDEX;
 extern int TEMP_LEN;
 
+/*
+	open_file - Opens the file in arg1.
+	Returns -1 if it has an issue attempting to open the file.
+	Returns 0 if the file is successfully opened.
+*/
 int
 open_file (char file_name[]);
 

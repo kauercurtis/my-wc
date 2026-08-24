@@ -15,6 +15,11 @@ int LINES = -1;
 int WORDS = -1;
 int CHARS = -1;
 
+/*
+	print_file_data - Prints LINES, WORDS, CHARACTERS, and BYTES in this order followed by the filename.
+	The order of the values printed is altered if a value is == -1.
+	Example: If LINES == -1, then the order printed is WORDS, CHARACTERS, BYTES, and the filename.
+*/
 void
 print_file_data();
 
