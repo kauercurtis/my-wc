@@ -45,4 +45,9 @@ character_count ();
 int
 char_processing (char buffer[], int bytes_read);
 
+int
+open_stand_input();
+
+int
+close_stream_input();
 #endif /* COMMANDS_H */

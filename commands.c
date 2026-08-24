@@ -4,7 +4,7 @@
 
 #include "commands.h"
 
-int FD;
+int FD = -1;
 int TEMP_INDEX = 0;
 int TEMP_LEN = 0;
 
@@ -170,4 +170,28 @@ character_count ()
 	}
 	lseek(FD, 0, SEEK_SET);
 	return characters;
+}
+
+int
+open_stream_input()
+{
+	FD = fileno(stdin)
+	if (FD < 0)
+	{
+		fprintf(stderr, "Error: stdin could not be opened, got %d.\n", FD);
+		return -1;
+	}
+	return 0;
+}
+
+int
+close_stream_input()
+{
+	int close_status = fclose(stdin);
+	if (close_status < 0)
+	{
+		fprintf(stderr, "Error: File descriptor could not be closed appropriately, got %d.\n", close_status);
+		return -1;
+	}
+	return 0;
 }
