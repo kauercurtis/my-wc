@@ -36,24 +36,19 @@ int
 byte_count ()
 {
 	int bytes = 0;
-	bytes = lseek(FD, 0, SEEK_END);
-	int seek = lseek(FD, 0, SEEK_SET);
-	if (seek == -1)
+	char buf[100 + 1];
+	int nb_read = -1;
+	while (nb_read != 0)
 	{
-		bytes = 0;
-		char buf[100 + 1];
-		int nb_read = -1;
-		while (nb_read != 0)
+		nb_read = read(FD, buf, 100);
+		if (nb_read == -1)
 		{
-			nb_read = read(FD, buf, 100);
-			if (nb_read == -1)
-			{
-				fprintf(stderr, "Error: Reading error, got -1.");
-				break;
-			}
-			bytes += nb_read;
+			fprintf(stderr, "Error: Reading error, got -1.");
+			break;
 		}
+		bytes += nb_read;
 	}
+	lseek(FD, 0, SEEK_SET);
 	return bytes;
 }
 
@@ -81,7 +76,7 @@ line_count ()
 		}
 	}
 	lseek(FD, 0, SEEK_SET);
-return lines;
+	return lines;
 }
 
 int

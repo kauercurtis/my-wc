@@ -66,7 +66,7 @@ main (int argc, char *argv[])
 						return EXIT_FAILURE;
 				}
 			}
-			print_file_data(argv[2]);
+			print_file_data();
 			if (close_file() == -1)
 			{
 				fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
