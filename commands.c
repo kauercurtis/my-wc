@@ -37,7 +37,23 @@ byte_count ()
 {
 	int bytes = 0;
 	bytes = lseek(FD, 0, SEEK_END);
-	lseek(FD, 0, SEEK_SET);
+	int seek = lseek(FD, 0, SEEK_SET);
+	if (seek == -1)
+	{
+		bytes = 0;
+		char buf[100 + 1];
+		int nb_read = -1;
+		while (nb_read != 0)
+		{
+			nb_read = read(FD, buf, 100);
+			if (nb_read == -1)
+			{
+				fprintf(stderr, "Error: Reading error, got -1.");
+				break;
+			}
+			bytes += nb_read;
+		}
+	}
 	return bytes;
 }
 
@@ -65,7 +81,7 @@ line_count ()
 		}
 	}
 	lseek(FD, 0, SEEK_SET);
-	return lines;
+return lines;
 }
 
 int
@@ -175,7 +191,7 @@ character_count ()
 int
 open_stream_input()
 {
-	FD = fileno(stdin)
+	FD = fileno(stdin);
 	if (FD < 0)
 	{
 		fprintf(stderr, "Error: stdin could not be opened, got %d.\n", FD);

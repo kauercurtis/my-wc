@@ -46,7 +46,7 @@ int
 char_processing (char buffer[], int bytes_read);
 
 int
-open_stand_input();
+open_stream_input();
 
 int
 close_stream_input();

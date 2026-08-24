@@ -14,6 +14,7 @@ int BYTES = -1;
 int LINES = -1;
 int WORDS = -1;
 int CHARS = -1;
+char FILE_NAME[256];
 
 /*
 	print_file_data - Prints LINES, WORDS, CHARACTERS, and BYTES in this order followed by the filename.
@@ -42,6 +43,7 @@ main (int argc, char *argv[])
 				fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
 				return EXIT_FAILURE;
 			}
+			strcpy(FILE_NAME, argv[2]);
 			int opt = 0;
 		    while ((opt = getopt(argc, argv, "clwm")) != -1)
 			{
@@ -78,20 +80,67 @@ main (int argc, char *argv[])
 			return EXIT_FAILURE;
 		}
 	}
+	else if (argc == 2 && argv[1][0] == '-')
+	{
+		char starting_character = argv[1][0];
+		if (starting_character == '-')
+		{
+		   	if (open_stream_input() == -1)
+			{
+				fprintf(stderr, "Error: Error opening standard input, got -1.\n");
+				return EXIT_FAILURE;
+			}
+			int opt = 0;
+		    while ((opt = getopt(argc, argv, "clwm")) != -1)
+			{
+				switch (opt)
+				{
+					case 'c':
+						BYTES = byte_count ();
+						break;
+					case 'l':
+						LINES = line_count ();
+						break;
+					case 'w':
+						WORDS = word_count ();
+						break;
+					case 'm':
+						CHARS = character_count ();
+						break;
+					default:
+						fprintf(stderr, "Usage: | %s [-c], [-l], [-w], [-m] [stdin]\n", argv[0]);
+						return EXIT_FAILURE;
+				}
+			}
+			print_file_data();
+			if (close_stream_input() == -1)
+			{
+				fprintf(stderr, "Error: Error closing stdin, got -1.\n");
+				return EXIT_FAILURE;
+			}
+		}
+		else
+		{
+			fprintf(stderr, "Error: Expected command to start with -, but got %c.\n", argv[1][0]);
+			fprintf(stderr, "Usage: | %s -<command>\n", argv[0]);
+			return EXIT_FAILURE;
+		}
+	}
 	else
 	{
 		if (open_file(argv[1]) == -1)
 		{
-			fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[2]);
+			fprintf(stderr, "Error: Error opening %s, got -1.\n", argv[1]);
 			return EXIT_FAILURE;
 		}
+		strcpy(FILE_NAME, argv[1]);
 		BYTES = byte_count ();
 		LINES = line_count ();
 		WORDS = word_count ();
-		print_file_data(argv[1]);
+		print_file_data();
 		if (close_file() == -1)
 		{
-			fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
+			fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[1]);
 			return EXIT_FAILURE;
 		}
 	}
@@ -99,7 +148,7 @@ main (int argc, char *argv[])
 }
 
 void
-print_file_data(char file_name[])
+print_file_data()
 {
 	if (LINES != -1)
 	{
@@ -117,5 +166,12 @@ print_file_data(char file_name[])
 	{
 		printf("%d ", BYTES);
 	}
-	printf("%s\n", file_name);
+	if (sizeof(FILE_NAME) != 0)
+	{
+		printf("%s\n", FILE_NAME);
+	}
+	else
+	{
+		printf("\n");
+	}
 }
