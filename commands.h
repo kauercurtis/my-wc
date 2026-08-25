@@ -46,6 +46,10 @@ byte_count ();
 int
 line_count ();
 
+/*
+	word_count - Returns the number of words read using read() from the unistd.h library, from the file descriptor FD and uses word_processing() for counting individual words.
+	Returns -1 if there is an error reading from the file descriptor, FD.
+*/
 int
 word_count ();
 
