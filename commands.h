@@ -32,6 +32,10 @@ open_file (char file_name[]);
 int
 close_file ();
 
+/*
+	byte_count - Returns the number of bytes read using read() from the unistd.h library, from the file descriptor FD.
+	Returns -1 if there is an error reading from the file descriptor, FD.
+*/
 int
 byte_count ();
 

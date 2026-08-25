@@ -22,6 +22,11 @@ char FILE_NAME[256];
 void
 print_file_data ();
 
+/*
+	parse_argument_commands - Parses commands using the getopt function defined in unistds.h and executes accordingly by calling functions defined by commands.h.
+	Returns 1 if a command != l, w, m, or c.
+	Returns 0 on success.
+*/
 int
 parse_argument_commands (int arg_count, char *arguments[]);
 
