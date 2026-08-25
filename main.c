@@ -20,7 +20,10 @@ char FILE_NAME[256];
 	Example: If LINES == -1, then the order printed is [WORDS] [CHARACTERS] [BYTES] [filename].
 */
 void
-print_file_data();
+print_file_data ();
+
+int
+parse_argument_commands (int arg_count, char *arguments[]);
 
 /*
 	main.c - Main driver function for program.
@@ -47,29 +50,11 @@ main (int argc, char *argv[])
 				return EXIT_FAILURE;
 			}
 			strcpy(FILE_NAME, argv[2]);
-			int opt = 0;
-		    while ((opt = getopt(argc, argv, "clwm")) != -1)
+			if (parse_argument_commands(argc, argv) == -1)
 			{
-				switch (opt)
-				{
-					case 'c':
-						BYTES = byte_count ();
-						break;
-					case 'l':
-						LINES = line_count ();
-						break;
-					case 'w':
-						WORDS = word_count ();
-						break;
-					case 'm':
-						CHARS = character_count ();
-						break;
-					default:
-						fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", argv[0]);
-						return EXIT_FAILURE;
-				}
+				return EXIT_FAILURE;
 			}
-			print_file_data();
+		    print_file_data();
 			if (close_file() == -1)
 			{
 				fprintf(stderr, "Error: Error closing %s, got -1.\n", argv[2]);
@@ -93,27 +78,9 @@ main (int argc, char *argv[])
 				fprintf(stderr, "Error: Error opening standard input, got -1.\n");
 				return EXIT_FAILURE;
 			}
-			int opt = 0;
-		    while ((opt = getopt(argc, argv, "clwm")) != -1)
+			if (parse_argument_commands(argc, argv) == -1)
 			{
-				switch (opt)
-				{
-					case 'c':
-						BYTES = byte_count ();
-						break;
-					case 'l':
-						LINES = line_count ();
-						break;
-					case 'w':
-						WORDS = word_count ();
-						break;
-					case 'm':
-						CHARS = character_count ();
-						break;
-					default:
-						fprintf(stderr, "Usage: | %s [-c], [-l], [-w], [-m] [stdin]\n", argv[0]);
-						return EXIT_FAILURE;
-				}
+				return EXIT_FAILURE;
 			}
 			print_file_data();
 			if (close_stream_input() == -1)
@@ -150,8 +117,36 @@ main (int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
+int
+parse_argument_commands (int arg_count, char *arguments[])
+{
+	int opt = 0;
+	while ((opt = getopt(arg_count, arguments, "clwm")) != -1)
+	{
+		switch (opt)
+		{
+			case 'c':
+				BYTES = byte_count ();
+				break;
+			case 'l':
+				LINES = line_count ();
+				break;
+			case 'w':
+				WORDS = word_count ();
+				break;
+			case 'm':
+				CHARS = character_count ();
+				break;
+			default:
+				fprintf(stderr, "Usage: %s [-c], [-l], [-w], [-m] [file]\n", arguments[0]);
+				return -1;
+		}
+	}
+	return 0;
+}
+
 void
-print_file_data()
+print_file_data ()
 {
 	if (LINES != -1)
 	{
