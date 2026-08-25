@@ -39,6 +39,10 @@ close_file ();
 int
 byte_count ();
 
+/*
+	line_count - Returns the number of lines read using read() from the unistd.h library, from the file descriptor FD.
+	Returns -1 if there is an error reading from the file descriptor, FD.
+*/
 int
 line_count ();
 
