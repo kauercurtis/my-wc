@@ -3,7 +3,7 @@ My own version of the Unix command line wc tool.
 
 ## Systems Supported
 
-`Linux` - Specifically Ubuntu systems but should work on other distros. 
+`Linux` - Specifically Debian systems but should work on other distros. 
 
 ## Installation
 
@@ -29,3 +29,10 @@ My own version of the Unix command line wc tool.
 
 `m` - character count.
 
+## Standard Ouput
+
+The output has a specific order. If a command is ommited, it is not included in the output.
+
+Lines | Words | Characters | Bytes
+
+`Note` - '|' is used to represent columns. And isn't included in standard output. 
